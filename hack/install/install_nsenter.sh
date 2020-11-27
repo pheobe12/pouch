@@ -36,8 +36,7 @@ nsenter::ubuntu::install_dependencies() {
 # nsenter::ubuntu::install will install nsenter.
 # TODO: change to get binary from aliyun oss storage.
 nsenter::ubuntu::install() {
-  wget "https://${OSS_BUCKET}.${OSS_ENDPOINT}/pouch-test/ubuntu/nsenter-2.24.1" \
-    -O /usr/local/bin/nsenter
+  cp /usr/bin/nsenter /usr/local/bin/nsenter
   chmod +x /usr/local/bin/nsenter
 }
 

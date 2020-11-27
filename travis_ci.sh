@@ -48,7 +48,7 @@ run_unittest() {
 run_integration_test() {
   local job_id=$1
 
-  check_port
+  #check_port
 
   make build
   sudo env "PATH=$PATH" make install
@@ -61,7 +61,7 @@ run_integration_test() {
 }
 
 run_criv1alpha2_test() {
-  check_port
+  #check_port
 
   make build
   TEST_FLAGS="" BUILDTAGS="selinux seccomp apparmor" make build-daemon-integration
@@ -75,7 +75,7 @@ run_criv1alpha2_test() {
 }
 
 run_node_e2e_test() {
-  check_port
+  #check_port
 
   make build
   TEST_FLAGS="" make build-daemon-integration
@@ -88,15 +88,15 @@ run_node_e2e_test() {
   bash <(curl -s https://codecov.io/bash) -cF node_e2e_test -y .codecov.yml
 }
 
-check_port() {
+#check_port() {
 	# docker-containerd will use port 10010 in docker.service
-	sudo netstat -npl | grep -q "10010"
-	if [[ $? -ne 0 ]]; then
-		return
-	fi
+#	sudo netstat -npl | grep -q "10010"
+#	if [[ $? -ne 0 ]]; then
+#		return
+#	fi
 
-	sudo systemctl stop docker
-}
+#	sudo systemctl stop docker
+#}
 
 install_osscmd() {
   sudo wget "http://gosspublic.alicdn.com/ossutil/1.4.1/ossutil64" \

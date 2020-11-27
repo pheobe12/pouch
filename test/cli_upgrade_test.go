@@ -36,6 +36,7 @@ func (suite *PouchUpgradeSuite) TeadDownTest(c *check.C) {
 func (suite *PouchUpgradeSuite) TestPouchUpgrade(c *check.C) {
 	name := "TestPouchUpgrade"
 
+	SkipIfTrue(c, environment.IsArch)
 	command.PouchRun("run", "-d", "--name", name, busyboxImage, "top").Assert(c, icmd.Success)
 	defer DelContainerForceMultyTime(c, name)
 
@@ -116,6 +117,7 @@ func (suite *PouchUpgradeSuite) TestPouchUpgradeWithDifferentImage(c *check.C) {
 func (suite *PouchUpgradeSuite) TestPouchUpgradeCheckVolume(c *check.C) {
 	name := "TestPouchUpgradeCheckVolume"
 
+	SkipIfTrue(c, environment.IsArch)
 	// create container with a /data volume
 	command.PouchRun("run", "-d", "-v", "/data", "--name", name, busyboxImage, "top").Assert(c, icmd.Success)
 	defer DelContainerForceMultyTime(c, name)

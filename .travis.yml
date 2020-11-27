@@ -1,9 +1,9 @@
-dist: xenial
+dist: focal
 sudo: required
 
 language: go
 go:
-  - 1.12.6
+  - 1.13.4
 
 go_import_path: github.com/alibaba/pouch
 
@@ -15,6 +15,9 @@ before_install:
       exit
     }
 
+install:
+  - sudo apt-get install -y net-tools libbtrfs-dev
+
 notifications:
   webhooks:
     urls:
@@ -24,27 +27,88 @@ notifications:
 
 jobs:
   include:
-    - stage: test
+    - arch: amd64
+      stage: test
+      name: "Unit test"
+      script: ./travis_ci.sh unittest
+    - arch: arm64-graviton2
+      virt: vm
+      group: edge
+      stage: test
       name: "Unit test"
       script: ./travis_ci.sh unittest
 
-    - stage: test
+    - arch: amd64
+      stage: test
       name: "CRIv1alpha2 test"
-      script: ./travis_ci.sh criv1alpha2test
+      script:
+        - ./travis_ci.sh criv1alpha2test
+    - arch: arm64-graviton2
+      virt: vm
+      group: edge
+      stage: test
+      name: "CRIv1alpha2 test"
+      script:
+        - ./travis_ci.sh criv1alpha2test
 
-    - stage: test
+    - arch: amd64
+      stage: test
       name: "Node e2e test"
-      script: ./travis_ci.sh nodee2etest
+      script:
+        - ./travis_ci.sh nodee2etest
+    - arch: arm64-graviton2
+      virt: vm
+      group: edge
+      stage: test
+      name: "Node e2e test"
+      script:
+        - ./travis_ci.sh nodee2etest
 
-    - stage: test
+    - arch: amd64
+      stage: test
       name: "Integration test 0"
-      script: ./travis_ci.sh integrationtest 4 0
-    - stage: test
+      script:
+        - ./travis_ci.sh integrationtest 4 0
+    - arch: arm64-graviton
+      virt: vm
+      group: edge
+      stage: test
+      name: "Integration test 0"
+      script:
+        - ./travis_ci.sh integrationtest 4 0
+    - arch: amd64
+      stage: test
       name: "Integration test 1"
-      script: ./travis_ci.sh integrationtest 4 1
-    - stage: test
+      script:
+        - ./travis_ci.sh integrationtest 4 1
+    - arch: arm64-graviton2
+      virt: vm
+      group: edge
+      stage: test
+      name: "Integration test 1"
+      script:
+        - ./travis_ci.sh integrationtest 4 1
+    - arch: amd64
+      stage: test
       name: "Integration test 2"
-      script: ./travis_ci.sh integrationtest 4 2
-    - stage: test
+      script:
+        - ./travis_ci.sh integrationtest 4 2
+    - arch: arm64-graviton2
+      virt: vm
+      group: edge
+      stage: test
+      name: "Integration test 2"
+      script:
+        - ./travis_ci.sh integrationtest 4 2
+    - arch: amd64
+      stage: test
       name: "Integration test 3"
-      script: ./travis_ci.sh integrationtest 4 3
+      script:
+        - ./travis_ci.sh integrationtest 4 3
+    - arch: arm64-graviton2
+      virt: vm
+      group: edge
+      stage: test
+      name: "Integration test 3"
+      script:
+        - ./travis_ci.sh integrationtest 4 3
